@@ -97,3 +97,4 @@ The source code, comments and user interface are written in Spanish.
 ## Author
 
 Francisco Sánchez Orozco
+Sebastián Zamora Molina

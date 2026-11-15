@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Ruta del archivo de log (puedes cambiarla)
-    private static final String LOG_FILE = "log_seguridad.txt";
+    // Ruta del archivo de log, configurable con la propiedad app.seguridad.log-file
+    // (o la variable de entorno RUTA_LOG_SEGURIDAD). Por defecto, en la carpeta de ejecución.
+    @Value("${app.seguridad.log-file:log_seguridad.txt}")
+    private String LOG_FILE;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Void> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {

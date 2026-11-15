@@ -1,0 +1,23 @@
+# Despliegue del backend (que también sirve el frontend React) con Docker Compose.
+# Antes de arrancar:
+#   1. Copiar las claves a ./claves (tink_keyset.json y jwt_secret.key)
+#   2. Opcional: copiar .env.example a .env y poner la URL del servicio de IA
+#   3. docker compose up -d --build
+
+services:
+  backend:
+    build: .
+    image: tfg-medical-platform:latest
+    container_name: tfg-backend
+    ports:
+      - "8081:8081"
+    environment:
+      IA_URL: ${IA_URL:-https://xxxx.ngrok-free.dev/ia/generar-respuesta}
+    volumes:
+      - ./claves:/app/claves:ro      # claves criptográficas (nunca dentro de la imagen)
+      - h2-data:/app/data            # base de datos H2 persistente
+      - ./logs:/app/logs             # log_seguridad.txt, accesible para el agente SOC
+    restart: unless-stopped
+
+volumes:
+  h2-data:

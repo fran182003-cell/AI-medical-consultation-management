@@ -41,3 +41,24 @@ eventos_siem.json
 claves/
 *.key
 tink_keyset.json
+
+### Python ###
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+### Secretos de los modulos Python (nunca subir) ###
+Rutas.txt
+o365_token.txt
+.env
+
+### Docker ###
+logs/
+
+### Terraform ###
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+crash.log

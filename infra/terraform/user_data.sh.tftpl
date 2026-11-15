@@ -1,0 +1,36 @@
+#!/bin/bash
+# Arranque de la instancia: instala Docker, descarga las claves de SSM,
+# construye la imagen desde el repositorio y lanza el contenedor.
+set -euxo pipefail
+
+APP_DIR=/opt/tfg
+
+dnf install -y docker git
+systemctl enable --now docker
+
+git clone --depth 1 --branch "${repo_branch}" "${repo_url}" "$APP_DIR/src"
+mkdir -p "$APP_DIR/claves" "$APP_DIR/logs"
+
+# Claves criptográficas desde SSM Parameter Store (SecureString)
+aws ssm get-parameter --region "${aws_region}" --with-decryption \
+  --name "${ssm_prefix}/tink_keyset" \
+  --query Parameter.Value --output text > "$APP_DIR/claves/tink_keyset.json"
+
+aws ssm get-parameter --region "${aws_region}" --with-decryption \
+  --name "${ssm_prefix}/jwt_secret_b64" \
+  --query Parameter.Value --output text | base64 -d > "$APP_DIR/claves/jwt_secret.key"
+
+# El contenedor se ejecuta con el usuario sin privilegios 10001
+chown -R 10001:10001 "$APP_DIR/claves" "$APP_DIR/logs"
+chmod 700 "$APP_DIR/claves"
+chmod 600 "$APP_DIR/claves/"*
+
+docker build -t tfg-medical-platform:latest "$APP_DIR/src"
+
+docker run -d --name tfg-backend --restart unless-stopped \
+  -p 8081:8081 \
+  -e IA_URL="${ia_url}" \
+  -v "$APP_DIR/claves:/app/claves:ro" \
+  -v tfg-h2-data:/app/data \
+  -v "$APP_DIR/logs:/app/logs" \
+  tfg-medical-platform:latest

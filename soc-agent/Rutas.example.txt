@@ -1,0 +1,16 @@
+# Copia este archivo como "Rutas.txt" (en esta misma carpeta) y rellena los valores.
+# Rutas.txt contiene secretos y está excluido del repositorio en .gitignore.
+
+# API key de Google AI Studio (Gemini)
+GOOGLE_API_KEY=
+
+# Registro de aplicación en Microsoft Entra ID (envío de correos con Microsoft Graph)
+O365_CLIENT_ID=
+O365_CLIENT_SECRET=
+
+# Log que genera el backend de Spring Boot y archivo SIEM de salida
+RUTA_LOGS=../log_seguridad.txt
+RUTA_JSON=../eventos_siem.json
+
+# Destinatario de las alertas críticas
+EMAIL_ALERTAS=

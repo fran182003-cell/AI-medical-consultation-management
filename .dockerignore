@@ -1,0 +1,20 @@
+# Solo se necesitan pom.xml y src/ para construir la imagen
+target/
+data/
+logs/
+claves/
+*.key
+tink_keyset.json
+log_seguridad.txt
+eventos_siem.json
+.git/
+.mvn/
+mvnw
+mvnw.cmd
+ia-service/
+soc-agent/
+dnie-bridge/
+infra/
+*.md
+.env
+frontend/

@@ -1,0 +1,8 @@
+flask
+flask-cors
+pyngrok
+nest_asyncio
+transformers
+torch
+huggingface_hub
+accelerate

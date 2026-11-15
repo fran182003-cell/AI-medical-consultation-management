@@ -1,0 +1,9 @@
+# Copiar como terraform.tfvars (ignorado por git) y ajustar.
+
+# Obligatorio: tu IP pública con /32 (o el rango del centro)
+allowed_cidr = "203.0.113.10/32"
+
+# Opcionales
+# aws_region    = "eu-west-3"
+# instance_type = "t3.medium"
+# ia_url        = "https://<id>.ngrok-free.dev/ia/generar-respuesta"
